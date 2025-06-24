@@ -1,0 +1,7 @@
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\obj\Debug\ProyectoFinalALPProductos.csprojResolveAssemblyReference.cache
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\obj\Debug\ProyectoFinalALPProductos.MainForm.resources
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\obj\Debug\ProyectoFinalALPProductos.csproj.GenerateResource.Cache
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\bin\Debug\ProyectoFinalALPProductos.exe
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\bin\Debug\ProyectoFinalALPProductos.pdb
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\obj\Debug\ProyectoFinalALPProductos.exe
+C:\Users\Equipo\Documents\SharpDevelop Projects\ProyectoFinalALPProductos\ProyectoFinalALPProductos\obj\Debug\ProyectoFinalALPProductos.pdb
