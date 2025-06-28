@@ -16,17 +16,17 @@ namespace ProyectoFinalALPProductos
 	/// </summary>
 	public class ListadoProductos
 	{
-	    private List<Producto> BDProductos;
+		private List<Producto> BDProductos;
 		public ListadoProductos()
 		{
 			BDProductos = new List<Producto>();
 		}
 		
-		public bool AgregarProductoALaLista(string nombre, decimal costo, string subclasificacion, decimal precioEnDolarConvertible, bool disponible){
+		public bool AgregarProductoALaLista(string nombre, decimal precioSubTotal, string subclasificacion, decimal precioDolar, bool disponible, decimal tasaBCV){
 			foreach(Producto p in BDProductos){
 				if(VerificacionDeDatos.VerificacionPorNombre(nombre, p)) return false;
 			}
-			Producto newProducto = new Producto(nombre, costo, subclasificacion, precioEnDolarConvertible, disponible);
+			Producto newProducto = new Producto(nombre, precioSubTotal, subclasificacion, precioDolar, disponible);
 			
 			BDProductos.Add(newProducto);
 			return true;
@@ -48,6 +48,6 @@ namespace ProyectoFinalALPProductos
 		
 //		public void ModificarDatosDeProducto(string nombre){
 //
-//		}		
+//		}
 	}
 }

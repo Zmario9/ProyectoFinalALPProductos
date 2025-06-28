@@ -26,10 +26,11 @@ namespace ProyectoFinalALPProductos
 			// The InitializeComponent() call is required for Windows Forms designer support.
 			//
 			InitializeComponent();
+			BCVRadio.Checked = true;
 			aditionBtn.Enabled = false;
 			BDProductos = new ListadoProductos();
-			BDProductos.AgregarProductoALaLista("Harina", 150.50m, "VIVERES",true);
-			AgregarProductosALaGrilla();
+			categoryCombBox.SelectedIndex = 0;
+			gananciaComboBox.SelectedIndex = 0;
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
@@ -53,14 +54,8 @@ namespace ProyectoFinalALPProductos
 		}
 		
 		void resetTasaInputs(){
-			BCVinput.TextChanged -= BCVinputTextChanged;
-			euroInput.TextChanged -= EuroInputTextChanged;
-			
 			BCVinput.Text = "100";
 			euroInput.Text = "120";
-			
-			BCVinput.TextChanged += BCVinputTextChanged;
-			euroInput.TextChanged += EuroInputTextChanged;
 		}
 		
 		void AgregarProductosALaGrilla(){
@@ -75,20 +70,22 @@ namespace ProyectoFinalALPProductos
 		void activarODesactivarBtn(){
 			if(!verificarTodosLosInputs()){
 				aditionBtn.Enabled = false;
+				precioVentaInput.Text =  "Falta info";
 				return;
 			}
-			
+			calcularPrecioSubtotal();
 			aditionBtn.Enabled = true;
 		}
 		
 		bool verificarTodosLosInputs(){
-			return (VerificacionDeDatos.VerificarEspaciosVaciosONoValidos(nameProducto.Text) && VerificacionDeDatos.VerificarCategoria(categoryCombBox.Text) && VerificacionDeDatos.VerificarNumero(priceText.Text));
+			return (VerificacionDeDatos.VerificarEspaciosVaciosONoValidos(nameProducto.Text) && VerificacionDeDatos.VerificarCategoria(categoryCombBox.SelectedIndex) && VerificacionDeDatos.VerificarNumero(priceText.Text));
 		}
 		
 		void limpiarFormulario(){
 			nameProducto.Text = "";
 			priceText.Text = "";
 			categoryCombBox.Text = "--- Opciones ---";
+			divisaText.Text = "";
 		}
 		
 		
@@ -106,24 +103,35 @@ namespace ProyectoFinalALPProductos
 				aditionBtn.Enabled = false;
 				return;
 			}
+			calcularPrecioSubtotal();
 			aditionBtn.Enabled = true;
 		}
 		
-		//Eventos para cuando se escriba un input
-		void BCVinputTextChanged(object sender, EventArgs e)
-		{
-			actualizarPromInput();
+		void calcularPrecioSubtotal(){
+			decimal costo;
+			if (!decimal.TryParse(priceText.Text, out costo))
+			{
+				precioVentaInput.Text = "Costo Inválido"; // Mensaje para el usuario
+				aditionBtn.Enabled = false; // Deshabilitar el botón de añadir si el costo no es válido
+				return; // Salir de la función si el costo no es válido
+			}
+			decimal ganancia = (costo*decimal.Parse(gananciaComboBox.Text))/100;
+			decimal precioSubtotal = costo + ganancia;
+			precioVentaInput.Text = precioSubtotal.ToString();
+			divisaText.Text = (precioSubtotal/decimal.Parse(BCVinput.Text)).ToString();
 		}
 		
-		void EuroInputTextChanged(object sender, EventArgs e)
-		{
-			actualizarPromInput();
-		}
+		//Eventos para cuando se escriba un input
 		
 		void MainFormLoad(object sender, EventArgs e)
 		{
 			resetTasaInputs();
 			actualizarPromInput();
+			if(!VerificacionDeDatos.CargarInventario(BDProductos)){
+				MessageBox.Show("No pudo cargar la base de datos");
+				return;
+			}
+			AgregarProductosALaGrilla();
 		}
 		
 		void AditionBtnClick(object sender, EventArgs e)
@@ -131,17 +139,31 @@ namespace ProyectoFinalALPProductos
 			string categoryText;
 			string nombProd = nameProducto.Text;
 			decimal costoProd = decimal.Parse(priceText.Text);
+			decimal ganancia;
+			decimal precioSinTasa;
+			decimal precioDolar;
+			
+			ganancia = (decimal.Parse(gananciaComboBox.Text)*costoProd)/100;
+			precioSinTasa = (costoProd + ganancia);
+			precioDolar = precioSinTasa / decimal.Parse(BCVinput.Text);
+			
 			bool disponibilidad = disponibleCheck.Checked;
 			
-			if(!VerificacionDeDatos.VerificarCategoria(categoryCombBox.Text)){
+			if(!VerificacionDeDatos.VerificarCategoria(categoryCombBox.SelectedIndex)){
 				MessageBox.Show("No se pudo agregar el producto, escoge una categoria válida");
 				return;
 			}
 			categoryText = categoryCombBox.Text;
-			if(!BDProductos.AgregarProductoALaLista(nombProd, costoProd, categoryText, disponibilidad)){
+			
+			if(!BDProductos.AgregarProductoALaLista(nombProd, precioSinTasa, categoryText, precioDolar, disponibilidad, decimal.Parse(BCVinput.Text))){
 				MessageBox.Show("Producto ya encontrado en la lista");
 				return;
 			}
+			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
+				MessageBox.Show("Los datos no pudieron guardarse en el txt");
+				return;
+			}
+			MessageBox.Show("Se guardaron correctamente los datos");
 			AgregarProductosALaGrilla();
 			limpiarFormulario();
 		}
@@ -165,10 +187,36 @@ namespace ProyectoFinalALPProductos
 			}
 			if(BDProductos.EliminarProductoDeLaLista(texto)){
 				MessageBox.Show("Producto eliminado exitosamente");
+				if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
+					MessageBox.Show("Los datos no pudieron guardarse en el txt");
+					return;
+				}
 				AgregarProductosALaGrilla();
 				return;
 			}
 			MessageBox.Show("Producto no encontrado");
+		}
+		
+		void DgvProductosCellContentClick(object sender, DataGridViewCellEventArgs e)
+		{
+			
+		}
+		
+		void GananciaComboBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			calcularPrecioSubtotal();
+		}
+		
+		
+		void BCVinputTextChanged(object sender, EventArgs e)
+		{
+			if(!verificarTodosLosInputs()){
+				aditionBtn.Enabled = false;
+				divisaText.Text = "No pudo convertir";
+				return;
+			}
+			calcularPrecioSubtotal();
+			aditionBtn.Enabled = true;
 		}
 	}
 }

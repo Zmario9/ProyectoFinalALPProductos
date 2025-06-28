@@ -42,8 +42,6 @@ namespace ProyectoFinalALPProductos
 			this.label1 = new System.Windows.Forms.Label();
 			this.labelprice = new System.Windows.Forms.Label();
 			this.priceText = new System.Windows.Forms.TextBox();
-			this.tasaText = new System.Windows.Forms.Label();
-			this.tasaInput = new System.Windows.Forms.TextBox();
 			this.BCVlabel = new System.Windows.Forms.Label();
 			this.BCVinput = new System.Windows.Forms.TextBox();
 			this.label2 = new System.Windows.Forms.Label();
@@ -58,6 +56,16 @@ namespace ProyectoFinalALPProductos
 			this.aditionBtn = new System.Windows.Forms.Button();
 			this.label6 = new System.Windows.Forms.Label();
 			this.deleteBtn = new System.Windows.Forms.Button();
+			this.BCVRadio = new System.Windows.Forms.RadioButton();
+			this.EURORadio = new System.Windows.Forms.RadioButton();
+			this.PromRadio = new System.Windows.Forms.RadioButton();
+			this.precioVentaInput = new System.Windows.Forms.TextBox();
+			this.gananciaComboBox = new System.Windows.Forms.ComboBox();
+			this.label7 = new System.Windows.Forms.Label();
+			this.label8 = new System.Windows.Forms.Label();
+			this.divisaText = new System.Windows.Forms.TextBox();
+			this.label9 = new System.Windows.Forms.Label();
+			this.refDolarInput = new System.Windows.Forms.TextBox();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
 			this.SuspendLayout();
@@ -111,24 +119,6 @@ namespace ProyectoFinalALPProductos
 			this.priceText.TabIndex = 4;
 			this.priceText.TextChanged += new System.EventHandler(this.PriceTextTextChanged);
 			// 
-			// tasaText
-			// 
-			this.tasaText.BackColor = System.Drawing.Color.Indigo;
-			this.tasaText.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
-			this.tasaText.ForeColor = System.Drawing.Color.White;
-			this.tasaText.Location = new System.Drawing.Point(12, 132);
-			this.tasaText.Name = "tasaText";
-			this.tasaText.Size = new System.Drawing.Size(124, 23);
-			this.tasaText.TabIndex = 5;
-			this.tasaText.Text = "Tasa actual";
-			// 
-			// tasaInput
-			// 
-			this.tasaInput.Location = new System.Drawing.Point(12, 158);
-			this.tasaInput.Name = "tasaInput";
-			this.tasaInput.Size = new System.Drawing.Size(100, 20);
-			this.tasaInput.TabIndex = 6;
-			// 
 			// BCVlabel
 			// 
 			this.BCVlabel.BackColor = System.Drawing.Color.Indigo;
@@ -165,7 +155,6 @@ namespace ProyectoFinalALPProductos
 			this.euroInput.Name = "euroInput";
 			this.euroInput.Size = new System.Drawing.Size(100, 20);
 			this.euroInput.TabIndex = 10;
-			this.euroInput.TextChanged += new System.EventHandler(this.EuroInputTextChanged);
 			// 
 			// promInput
 			// 
@@ -211,8 +200,10 @@ namespace ProyectoFinalALPProductos
 			// 
 			// categoryCombBox
 			// 
+			this.categoryCombBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
 			this.categoryCombBox.FormattingEnabled = true;
 			this.categoryCombBox.Items.AddRange(new object[] {
+									"-- Opciones --",
 									"VIVERES",
 									"ELECTRODOMESTICOS",
 									"VEGETALES",
@@ -223,7 +214,6 @@ namespace ProyectoFinalALPProductos
 			this.categoryCombBox.Name = "categoryCombBox";
 			this.categoryCombBox.Size = new System.Drawing.Size(121, 21);
 			this.categoryCombBox.TabIndex = 16;
-			this.categoryCombBox.Text = "--- Opciones ---";
 			this.categoryCombBox.SelectedIndexChanged += new System.EventHandler(this.CategoryCombBoxSelectedIndexChanged);
 			// 
 			// label5
@@ -240,10 +230,11 @@ namespace ProyectoFinalALPProductos
 			// dgvProductos
 			// 
 			this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-			this.dgvProductos.Location = new System.Drawing.Point(12, 236);
+			this.dgvProductos.Location = new System.Drawing.Point(12, 296);
 			this.dgvProductos.Name = "dgvProductos";
-			this.dgvProductos.Size = new System.Drawing.Size(448, 150);
+			this.dgvProductos.Size = new System.Drawing.Size(698, 150);
 			this.dgvProductos.TabIndex = 18;
+			this.dgvProductos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvProductosCellContentClick);
 			// 
 			// aditionBtn
 			// 
@@ -260,7 +251,7 @@ namespace ProyectoFinalALPProductos
 			this.label6.BackColor = System.Drawing.Color.Indigo;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label6.ForeColor = System.Drawing.Color.White;
-			this.label6.Location = new System.Drawing.Point(486, 330);
+			this.label6.Location = new System.Drawing.Point(12, 238);
 			this.label6.Name = "label6";
 			this.label6.Size = new System.Drawing.Size(152, 23);
 			this.label6.TabIndex = 20;
@@ -276,6 +267,113 @@ namespace ProyectoFinalALPProductos
 			this.deleteBtn.UseVisualStyleBackColor = true;
 			this.deleteBtn.Click += new System.EventHandler(this.DeleteBtnClick);
 			// 
+			// BCVRadio
+			// 
+			this.BCVRadio.BackColor = System.Drawing.Color.Indigo;
+			this.BCVRadio.ForeColor = System.Drawing.Color.White;
+			this.BCVRadio.Location = new System.Drawing.Point(538, 188);
+			this.BCVRadio.Name = "BCVRadio";
+			this.BCVRadio.Size = new System.Drawing.Size(104, 24);
+			this.BCVRadio.TabIndex = 22;
+			this.BCVRadio.TabStop = true;
+			this.BCVRadio.Text = "Tasa BCV";
+			this.BCVRadio.UseVisualStyleBackColor = false;
+			// 
+			// EURORadio
+			// 
+			this.EURORadio.BackColor = System.Drawing.Color.Indigo;
+			this.EURORadio.ForeColor = System.Drawing.Color.White;
+			this.EURORadio.Location = new System.Drawing.Point(538, 218);
+			this.EURORadio.Name = "EURORadio";
+			this.EURORadio.Size = new System.Drawing.Size(104, 24);
+			this.EURORadio.TabIndex = 23;
+			this.EURORadio.TabStop = true;
+			this.EURORadio.Text = "Tasa EURO";
+			this.EURORadio.UseVisualStyleBackColor = false;
+			// 
+			// PromRadio
+			// 
+			this.PromRadio.BackColor = System.Drawing.Color.Indigo;
+			this.PromRadio.ForeColor = System.Drawing.Color.White;
+			this.PromRadio.Location = new System.Drawing.Point(538, 248);
+			this.PromRadio.Name = "PromRadio";
+			this.PromRadio.Size = new System.Drawing.Size(104, 24);
+			this.PromRadio.TabIndex = 24;
+			this.PromRadio.TabStop = true;
+			this.PromRadio.Text = "Tasa Promedio";
+			this.PromRadio.UseVisualStyleBackColor = false;
+			// 
+			// precioVentaInput
+			// 
+			this.precioVentaInput.Enabled = false;
+			this.precioVentaInput.Location = new System.Drawing.Point(12, 266);
+			this.precioVentaInput.Name = "precioVentaInput";
+			this.precioVentaInput.Size = new System.Drawing.Size(100, 20);
+			this.precioVentaInput.TabIndex = 25;
+			// 
+			// gananciaComboBox
+			// 
+			this.gananciaComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+			this.gananciaComboBox.FormattingEnabled = true;
+			this.gananciaComboBox.Items.AddRange(new object[] {
+									"30",
+									"40",
+									"50"});
+			this.gananciaComboBox.Location = new System.Drawing.Point(244, 213);
+			this.gananciaComboBox.Name = "gananciaComboBox";
+			this.gananciaComboBox.Size = new System.Drawing.Size(121, 21);
+			this.gananciaComboBox.TabIndex = 26;
+			this.gananciaComboBox.SelectedIndexChanged += new System.EventHandler(this.GananciaComboBoxSelectedIndexChanged);
+			// 
+			// label7
+			// 
+			this.label7.BackColor = System.Drawing.Color.Indigo;
+			this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+			this.label7.ForeColor = System.Drawing.Color.White;
+			this.label7.Location = new System.Drawing.Point(244, 185);
+			this.label7.Name = "label7";
+			this.label7.Size = new System.Drawing.Size(173, 23);
+			this.label7.TabIndex = 27;
+			this.label7.Text = "Tasa de ganancia";
+			// 
+			// label8
+			// 
+			this.label8.BackColor = System.Drawing.Color.Indigo;
+			this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+			this.label8.ForeColor = System.Drawing.Color.White;
+			this.label8.Location = new System.Drawing.Point(12, 126);
+			this.label8.Name = "label8";
+			this.label8.Size = new System.Drawing.Size(152, 23);
+			this.label8.TabIndex = 28;
+			this.label8.Text = "Precio en divisa";
+			// 
+			// divisaText
+			// 
+			this.divisaText.Enabled = false;
+			this.divisaText.Location = new System.Drawing.Point(12, 152);
+			this.divisaText.Name = "divisaText";
+			this.divisaText.Size = new System.Drawing.Size(100, 20);
+			this.divisaText.TabIndex = 29;
+			// 
+			// label9
+			// 
+			this.label9.BackColor = System.Drawing.Color.Indigo;
+			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
+			this.label9.ForeColor = System.Drawing.Color.White;
+			this.label9.Location = new System.Drawing.Point(419, 238);
+			this.label9.Name = "label9";
+			this.label9.Size = new System.Drawing.Size(113, 23);
+			this.label9.TabIndex = 30;
+			this.label9.Text = "Precio final";
+			// 
+			// refDolarInput
+			// 
+			this.refDolarInput.Enabled = false;
+			this.refDolarInput.Location = new System.Drawing.Point(419, 266);
+			this.refDolarInput.Name = "refDolarInput";
+			this.refDolarInput.Size = new System.Drawing.Size(100, 20);
+			this.refDolarInput.TabIndex = 31;
+			// 
 			// MainForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -283,6 +381,16 @@ namespace ProyectoFinalALPProductos
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
 			this.ClientSize = new System.Drawing.Size(722, 458);
+			this.Controls.Add(this.refDolarInput);
+			this.Controls.Add(this.label9);
+			this.Controls.Add(this.divisaText);
+			this.Controls.Add(this.label8);
+			this.Controls.Add(this.label7);
+			this.Controls.Add(this.gananciaComboBox);
+			this.Controls.Add(this.precioVentaInput);
+			this.Controls.Add(this.PromRadio);
+			this.Controls.Add(this.EURORadio);
+			this.Controls.Add(this.BCVRadio);
 			this.Controls.Add(this.deleteBtn);
 			this.Controls.Add(this.label6);
 			this.Controls.Add(this.aditionBtn);
@@ -297,8 +405,6 @@ namespace ProyectoFinalALPProductos
 			this.Controls.Add(this.label2);
 			this.Controls.Add(this.BCVinput);
 			this.Controls.Add(this.BCVlabel);
-			this.Controls.Add(this.tasaInput);
-			this.Controls.Add(this.tasaText);
 			this.Controls.Add(this.priceText);
 			this.Controls.Add(this.labelprice);
 			this.Controls.Add(this.label1);
@@ -313,6 +419,16 @@ namespace ProyectoFinalALPProductos
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.TextBox refDolarInput;
+		private System.Windows.Forms.Label label9;
+		private System.Windows.Forms.TextBox divisaText;
+		private System.Windows.Forms.Label label8;
+		private System.Windows.Forms.Label label7;
+		private System.Windows.Forms.ComboBox gananciaComboBox;
+		private System.Windows.Forms.TextBox precioVentaInput;
+		private System.Windows.Forms.RadioButton PromRadio;
+		private System.Windows.Forms.RadioButton EURORadio;
+		private System.Windows.Forms.RadioButton BCVRadio;
 		private System.Windows.Forms.Button deleteBtn;
 		private System.Windows.Forms.Label label6;
 		private System.Windows.Forms.Button aditionBtn;
@@ -327,8 +443,6 @@ namespace ProyectoFinalALPProductos
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.TextBox BCVinput;
 		private System.Windows.Forms.Label BCVlabel;
-		private System.Windows.Forms.TextBox tasaInput;
-		private System.Windows.Forms.Label tasaText;
 		private System.Windows.Forms.TextBox priceText;
 		private System.Windows.Forms.Label labelprice;
 		private System.Windows.Forms.Label label1;
