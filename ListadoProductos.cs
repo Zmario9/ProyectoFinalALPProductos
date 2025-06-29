@@ -26,7 +26,7 @@ namespace ProyectoFinalALPProductos
 			foreach(Producto p in BDProductos){
 				if(VerificacionDeDatos.VerificacionPorNombre(nombre, p)) return false;
 			}
-			Producto newProducto = new Producto(nombre, precioSubTotal, costobase, subclasificacion, precioDolar, disponible);
+			Producto newProducto = new Producto(nombre, costobase, precioSubTotal, subclasificacion, precioDolar, disponible);
 			
 			BDProductos.Add(newProducto);
 			return true;
@@ -64,8 +64,8 @@ namespace ProyectoFinalALPProductos
 //			return false;
 //		}
 		
-//		public void ModificarDatosDeProducto(string nombre){
-//
+//		public bool ModificarDatosDeProducto(Producto productoAModificar, string nombre, decimal costoBase, decimal precioCambio, bool disponible){
+//			
 //		}
 	}
 }

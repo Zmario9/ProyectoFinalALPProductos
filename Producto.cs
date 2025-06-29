@@ -19,7 +19,7 @@ namespace ProyectoFinalALPProductos
 		[DisplayName("Nombre del Producto")]
 		public string Nombre{get; set;}
 		public decimal CostoBase{get; set;}
-		[DisplayName("Costo (Bs.)")]
+		[DisplayName("Precio de venta (Bs.)")]
 		public decimal Costo{get; set;}
 		[DisplayName("Categoría")]
 		public string SubClasificación{get; set;}

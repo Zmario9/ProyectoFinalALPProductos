@@ -1,1 +1,3 @@
-Harina|150|130|VIVERES|1,95|No disponible
+Harina|100|130|VIVERES|1,3|No disponible
+Chupeta|100|150|MEDICINAS|1,3|No disponible
+Arroz|150|195|VIVERES|1,95|No disponible

@@ -20,6 +20,8 @@ namespace ProyectoFinalALPProductos
 	public partial class MainForm : Form
 	{
 		private ListadoProductos BDProductos;
+		private bool EstaModificando = false;
+		private Producto ProductoDeReferencia;
 		public MainForm()
 		{
 			//
@@ -28,6 +30,7 @@ namespace ProyectoFinalALPProductos
 			InitializeComponent();
 			BCVRadio.Checked = true;
 			aditionBtn.Enabled = false;
+			modificarProducto.Enabled = false;
 			BDProductos = new ListadoProductos();
 			categoryCombBox.SelectedIndex = 0;
 			gananciaComboBox.SelectedIndex = 0;
@@ -37,6 +40,38 @@ namespace ProyectoFinalALPProductos
 		}
 		
 		//METODOS DEL FORMULARIO
+		
+		void BCVRadioClick(object sender, EventArgs e)
+		{
+			if(!EstaModificando) {
+				refDolarInput.Text = "";
+				return;
+			}
+			if(ProductoDeReferencia != null){
+				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, BCVRadio);
+			}
+		}
+		
+		void EURORadioClick(object sender, EventArgs e)
+		{
+			if(!EstaModificando) {
+				refDolarInput.Text = "";
+				return;
+			}
+			if(ProductoDeReferencia != null){
+				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, EURORadio);
+			}
+		}
+		
+		
+		public void ObtenerPrecioEnBolivares(decimal bolivares, RadioButton selectedRadio){
+			if(VerificacionDeDatos.VerificarNumero(BCVinput.Text) && VerificacionDeDatos.VerificarNumero(euroInput.Text) && VerificacionDeDatos.VerificarNumero(promInput.Text)){
+				switch(selectedRadio.Text){
+						case "Tasa BCV": refDolarInput.Text = (decimal.Parse(BCVinput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
+						case "Tasa EURO": refDolarInput.Text = (decimal.Parse(euroInput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
+				}
+			}
+		}
 		
 		void actualizarPromInput()
 		{
@@ -50,10 +85,12 @@ namespace ProyectoFinalALPProductos
 					promInput.Text = ((BCVtext + Eurotext) / 2).ToString("N2");
 				}
 				activarODesactivarBtn(); // Intentará recalcular y validar todo
+				activarODesactivarModBtn();
 				return;
 			}
 			promInput.Text = "No estás ingresando números";
 			activarODesactivarBtn(); // Intentará recalcular y validar todo
+			activarODesactivarModBtn();
 		}
 		
 		void resetTasaInputs(){
@@ -75,18 +112,36 @@ namespace ProyectoFinalALPProductos
 		{
 			
 		}
+		
 		void activarODesactivarBtn(){
-			if(!verificarTodosLosInputs()){
-				aditionBtn.Enabled = false;
-				precioVentaInput.Text =  "Falta info";
+			if(!EstaModificando){
+				if(!verificarTodosLosInputs()){
+					aditionBtn.Enabled = false;
+					precioVentaInput.Text =  "Falta info";
+					return;
+				}
+				calcularPrecioSubtotal();
+				aditionBtn.Enabled = true;
 				return;
 			}
-			calcularPrecioSubtotal();
-			aditionBtn.Enabled = true;
+			aditionBtn.Enabled = false;
 		}
 		
+		void activarODesactivarModBtn(){
+			if(EstaModificando){
+				if(!verificarTodosLosInputs()){
+					modificarProducto.Enabled = false;
+					precioVentaInput.Text =  "Falta info";
+					return;
+				}
+				calcularPrecioSubtotal();
+				modificarProducto.Enabled = true;
+			}
+		}
+		
+		
 		bool verificarTodosLosInputs(){
-			return (VerificacionDeDatos.VerificarEspaciosVaciosONoValidos(nameProducto.Text) && VerificacionDeDatos.VerificarCategoria(categoryCombBox.SelectedIndex) && VerificacionDeDatos.VerificarNumero(priceText.Text));
+			return (VerificacionDeDatos.VerificarEspaciosVaciosONoValidos(nameProducto.Text) && VerificacionDeDatos.VerificarCategoria(categoryCombBox.SelectedIndex) && VerificacionDeDatos.VerificarNumero(priceText.Text) && VerificacionDeDatos.VerificarNumero(BCVinput.Text));
 		}
 		
 		void limpiarFormulario(){
@@ -94,6 +149,7 @@ namespace ProyectoFinalALPProductos
 			priceText.Text = "";
 			categoryCombBox.Text = "--- Opciones ---";
 			divisaText.Text = "";
+			refDolarInput.Text = "";
 		}
 		
 		
@@ -107,6 +163,12 @@ namespace ProyectoFinalALPProductos
 		
 		void PriceTextTextChanged(object sender, EventArgs e)
 		{
+			if(!VerificacionDeDatos.VerificarNumero(priceText.Text)){
+				divisaText.Text = "No se pudo convertir";
+				precioVentaInput.Text = "Numero no valido";
+				return;
+			}
+			
 			if(!verificarTodosLosInputs()){
 				aditionBtn.Enabled = false;
 				return;
@@ -125,6 +187,11 @@ namespace ProyectoFinalALPProductos
 			}
 			decimal ganancia = (costo*decimal.Parse(gananciaComboBox.Text))/100;
 			decimal precioSubtotal = costo + ganancia;
+			if(!VerificacionDeDatos.VerificarNumero(BCVinput.Text)){
+				divisaText.Text = "No se pudo convertir";
+				precioVentaInput.Text = "Valor no valido";
+				return;
+			}
 			precioVentaInput.Text = precioSubtotal.ToString() + "Bs.";
 			divisaText.Text = "$"+(precioSubtotal/decimal.Parse(BCVinput.Text)).ToString();
 		}
@@ -145,6 +212,10 @@ namespace ProyectoFinalALPProductos
 		
 		void AditionBtnClick(object sender, EventArgs e)
 		{
+			if(EstaModificando){
+				MessageBox.Show("Lo sentimos pero está modificando un producto.");
+				return;
+			}
 			string categoryText;
 			string nombProd = nameProducto.Text;
 			decimal costoProd = decimal.Parse(priceText.Text);
@@ -176,11 +247,13 @@ namespace ProyectoFinalALPProductos
 		void NameProductoTextChanged(object sender, EventArgs e)
 		{
 			activarODesactivarBtn();
+			activarODesactivarModBtn();
 		}
 		
 		void CategoryCombBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			activarODesactivarBtn();
+			activarODesactivarModBtn();
 		}
 		
 		void DeleteBtnClick(object sender, EventArgs e)
@@ -210,13 +283,8 @@ namespace ProyectoFinalALPProductos
 		
 		void BCVinputTextChanged(object sender, EventArgs e)
 		{
-			if(!verificarTodosLosInputs()){
-				aditionBtn.Enabled = false;
-				divisaText.Text = "No pudo convertir";
-				return;
-			}
-			calcularPrecioSubtotal();
-			aditionBtn.Enabled = true;
+			activarODesactivarBtn();
+			activarODesactivarModBtn();
 		}
 		
 		void PrecioVentaInputTextChanged(object sender, EventArgs e)
@@ -234,31 +302,45 @@ namespace ProyectoFinalALPProductos
 			if(e.ColumnIndex < 0){
 				return;
 			}
+			EstaModificando = true;
+
 			string nombreDelProducto = (dgvProductos.Rows[e.RowIndex].Cells["Nombre"].Value).ToString();
-			MessageBox.Show(nombreDelProducto.ToString());
+//			MessageBox.Show(nombreDelProducto.ToString());
 			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nombreDelProducto);
 			nameProducto.Text = productoAModificar.Nombre;
 			priceText.Text = productoAModificar.CostoBase.ToString();
 			categoryCombBox.Text = productoAModificar.SubClasificación;
 			disponibleCheck.Checked = (productoAModificar.Disponible == "Si") ? true : false;
 			modificarProducto.Enabled = true;
+			ProductoDeReferencia = productoAModificar;
+			activarODesactivarBtn();
+			activarODesactivarModBtn();
 		}
 		
 		void ModificarProductoClick(object sender, EventArgs e)
 		{
-			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nameProducto.Text);
+			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(ProductoDeReferencia.Nombre);
 			if(productoAModificar == null){
 				MessageBox.Show("No se pudo hacer la modificación porque no se encontró el producto");
 				return;
 			}
+			
+			if(!verificarTodosLosInputs()){
+				MessageBox.Show("Los datos no son validos, vuelvalo a intentar");
+				return;
+			}
+			
 			productoAModificar.Nombre = nameProducto.Text;
 			productoAModificar.CostoBase = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
 			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
-			MessageBox.Show("Producto modificado correctamente");
+			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
+			
 			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
-				MessageBox.Show("Los datos no pudieron guardarse en el txt");
+				MessageBox.Show("Los datos no pudieron guardarse en la base de datos.");
 				return;
 			}
+			EstaModificando = false;
+			modificarProducto.Enabled = false;
 			AgregarProductosALaGrilla();
 			limpiarFormulario();
 		}
