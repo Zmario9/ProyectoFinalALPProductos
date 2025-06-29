@@ -7,6 +7,7 @@
  * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
  */
 using System;
+using System.ComponentModel;
 
 namespace ProyectoFinalALPProductos
 {
@@ -15,15 +16,22 @@ namespace ProyectoFinalALPProductos
 	/// </summary>
 	public class Producto
 	{
+		[DisplayName("Nombre del Producto")]
 		public string Nombre{get; set;}
+		public decimal CostoBase{get; set;}
+		[DisplayName("Costo (Bs.)")]
 		public decimal Costo{get; set;}
+		[DisplayName("Categoría")]
 		public string SubClasificación{get; set;}
+		[DisplayName("Precio ($)")]
 		public decimal PrecioCambio{get; set;}
+		[DisplayName("¿Disponible?")]
 		public string Disponible{get; set;}
 		
-		public Producto(string nombre, decimal costo, string subclasificacion, decimal precioCambio, bool disponible)
+		public Producto(string nombre, decimal costoBase, decimal costo, string subclasificacion, decimal precioCambio, bool disponible)
 		{
 			Nombre = nombre;
+			CostoBase = costoBase;
 			Costo = costo;
 			SubClasificación = subclasificacion;
 			PrecioCambio = precioCambio;
@@ -36,7 +44,7 @@ namespace ProyectoFinalALPProductos
 		
 		public override string ToString()
 		{
-			return string.Format("{0}|{1}|{2}|{3}|{4}", Nombre, Costo, SubClasificación, PrecioCambio, Disponible);
+			return string.Format("{0}|{1}|{2}|{3}|{4}|{5}", Nombre, CostoBase, Costo, SubClasificación, PrecioCambio, Disponible);
 		}
 		
 		public static Producto FromString(string linea)
@@ -45,14 +53,15 @@ namespace ProyectoFinalALPProductos
 			string[] partes = linea.Split('|');
 
 			// Asegurarse de que tenemos la cantidad esperada de partes
-			if (partes.Length == 5)
+			if (partes.Length == 6)
 			{
 				string nombre = partes[0];
-				decimal costo = decimal.Parse(partes[1]);
-				string subclasificacion = partes[2];
-				decimal precioCambio = decimal.Parse(partes[3]);
-				bool disponible = partes[4] == "Si" ? true : false;
-				return new Producto(nombre, costo, subclasificacion, precioCambio, disponible);
+				decimal costobase = decimal.Parse(partes[1]);
+				decimal costo = decimal.Parse(partes[2]);
+				string subclasificacion = partes[3];
+				decimal precioCambio = decimal.Parse(partes[4]);
+				bool disponible = partes[5] == "Si" ? true : false;
+				return new Producto(nombre, costobase, costo, subclasificacion, precioCambio, disponible);
 			}
 			else
 			{

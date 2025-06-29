@@ -66,6 +66,7 @@ namespace ProyectoFinalALPProductos
 			this.divisaText = new System.Windows.Forms.TextBox();
 			this.label9 = new System.Windows.Forms.Label();
 			this.refDolarInput = new System.Windows.Forms.TextBox();
+			this.modificarProducto = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
 			((System.ComponentModel.ISupportInitialize)(this.dgvProductos)).BeginInit();
 			this.SuspendLayout();
@@ -107,7 +108,7 @@ namespace ProyectoFinalALPProductos
 			this.labelprice.ForeColor = System.Drawing.Color.White;
 			this.labelprice.Location = new System.Drawing.Point(12, 71);
 			this.labelprice.Name = "labelprice";
-			this.labelprice.Size = new System.Drawing.Size(113, 23);
+			this.labelprice.Size = new System.Drawing.Size(135, 23);
 			this.labelprice.TabIndex = 3;
 			this.labelprice.Text = "Costo:  (Bs.)";
 			// 
@@ -124,7 +125,7 @@ namespace ProyectoFinalALPProductos
 			this.BCVlabel.BackColor = System.Drawing.Color.Indigo;
 			this.BCVlabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.BCVlabel.ForeColor = System.Drawing.Color.White;
-			this.BCVlabel.Location = new System.Drawing.Point(438, 12);
+			this.BCVlabel.Location = new System.Drawing.Point(450, 12);
 			this.BCVlabel.Name = "BCVlabel";
 			this.BCVlabel.Size = new System.Drawing.Size(104, 23);
 			this.BCVlabel.TabIndex = 7;
@@ -132,7 +133,7 @@ namespace ProyectoFinalALPProductos
 			// 
 			// BCVinput
 			// 
-			this.BCVinput.Location = new System.Drawing.Point(438, 38);
+			this.BCVinput.Location = new System.Drawing.Point(450, 38);
 			this.BCVinput.Name = "BCVinput";
 			this.BCVinput.Size = new System.Drawing.Size(100, 20);
 			this.BCVinput.TabIndex = 8;
@@ -143,7 +144,7 @@ namespace ProyectoFinalALPProductos
 			this.label2.BackColor = System.Drawing.Color.Indigo;
 			this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label2.ForeColor = System.Drawing.Color.White;
-			this.label2.Location = new System.Drawing.Point(438, 71);
+			this.label2.Location = new System.Drawing.Point(450, 71);
 			this.label2.Name = "label2";
 			this.label2.Size = new System.Drawing.Size(104, 23);
 			this.label2.TabIndex = 9;
@@ -151,7 +152,7 @@ namespace ProyectoFinalALPProductos
 			// 
 			// euroInput
 			// 
-			this.euroInput.Location = new System.Drawing.Point(438, 97);
+			this.euroInput.Location = new System.Drawing.Point(450, 97);
 			this.euroInput.Name = "euroInput";
 			this.euroInput.Size = new System.Drawing.Size(100, 20);
 			this.euroInput.TabIndex = 10;
@@ -159,7 +160,7 @@ namespace ProyectoFinalALPProductos
 			// promInput
 			// 
 			this.promInput.Enabled = false;
-			this.promInput.Location = new System.Drawing.Point(438, 162);
+			this.promInput.Location = new System.Drawing.Point(450, 158);
 			this.promInput.Name = "promInput";
 			this.promInput.Size = new System.Drawing.Size(148, 20);
 			this.promInput.TabIndex = 11;
@@ -169,7 +170,7 @@ namespace ProyectoFinalALPProductos
 			this.label3.BackColor = System.Drawing.Color.Indigo;
 			this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label3.ForeColor = System.Drawing.Color.White;
-			this.label3.Location = new System.Drawing.Point(438, 132);
+			this.label3.Location = new System.Drawing.Point(450, 132);
 			this.label3.Name = "label3";
 			this.label3.Size = new System.Drawing.Size(148, 23);
 			this.label3.TabIndex = 12;
@@ -180,7 +181,7 @@ namespace ProyectoFinalALPProductos
 			this.disponibleCheck.BackColor = System.Drawing.Color.Indigo;
 			this.disponibleCheck.Font = new System.Drawing.Font("Microsoft Sans Serif", 10F);
 			this.disponibleCheck.ForeColor = System.Drawing.Color.White;
-			this.disponibleCheck.Location = new System.Drawing.Point(12, 211);
+			this.disponibleCheck.Location = new System.Drawing.Point(12, 264);
 			this.disponibleCheck.Name = "disponibleCheck";
 			this.disponibleCheck.Size = new System.Drawing.Size(104, 24);
 			this.disponibleCheck.TabIndex = 14;
@@ -192,7 +193,7 @@ namespace ProyectoFinalALPProductos
 			this.label4.BackColor = System.Drawing.Color.Indigo;
 			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label4.ForeColor = System.Drawing.Color.White;
-			this.label4.Location = new System.Drawing.Point(12, 185);
+			this.label4.Location = new System.Drawing.Point(12, 238);
 			this.label4.Name = "label4";
 			this.label4.Size = new System.Drawing.Size(135, 23);
 			this.label4.TabIndex = 15;
@@ -232,15 +233,16 @@ namespace ProyectoFinalALPProductos
 			this.dgvProductos.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
 			this.dgvProductos.Location = new System.Drawing.Point(12, 296);
 			this.dgvProductos.Name = "dgvProductos";
+			this.dgvProductos.ReadOnly = true;
 			this.dgvProductos.Size = new System.Drawing.Size(698, 150);
 			this.dgvProductos.TabIndex = 18;
-			this.dgvProductos.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvProductosCellContentClick);
+			this.dgvProductos.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvProductosCellDoubleClick);
 			// 
 			// aditionBtn
 			// 
 			this.aditionBtn.Location = new System.Drawing.Point(244, 61);
 			this.aditionBtn.Name = "aditionBtn";
-			this.aditionBtn.Size = new System.Drawing.Size(121, 56);
+			this.aditionBtn.Size = new System.Drawing.Size(91, 56);
 			this.aditionBtn.TabIndex = 19;
 			this.aditionBtn.Text = "⇧Adicionar;";
 			this.aditionBtn.UseVisualStyleBackColor = true;
@@ -251,17 +253,17 @@ namespace ProyectoFinalALPProductos
 			this.label6.BackColor = System.Drawing.Color.Indigo;
 			this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label6.ForeColor = System.Drawing.Color.White;
-			this.label6.Location = new System.Drawing.Point(12, 238);
+			this.label6.Location = new System.Drawing.Point(12, 185);
 			this.label6.Name = "label6";
-			this.label6.Size = new System.Drawing.Size(152, 23);
+			this.label6.Size = new System.Drawing.Size(202, 23);
 			this.label6.TabIndex = 20;
-			this.label6.Text = "Precio de venta";
+			this.label6.Text = "Precio de venta (Bs.)";
 			// 
 			// deleteBtn
 			// 
 			this.deleteBtn.Location = new System.Drawing.Point(244, 126);
 			this.deleteBtn.Name = "deleteBtn";
-			this.deleteBtn.Size = new System.Drawing.Size(121, 56);
+			this.deleteBtn.Size = new System.Drawing.Size(91, 56);
 			this.deleteBtn.TabIndex = 21;
 			this.deleteBtn.Text = "Eliminar Producto";
 			this.deleteBtn.UseVisualStyleBackColor = true;
@@ -271,7 +273,7 @@ namespace ProyectoFinalALPProductos
 			// 
 			this.BCVRadio.BackColor = System.Drawing.Color.Indigo;
 			this.BCVRadio.ForeColor = System.Drawing.Color.White;
-			this.BCVRadio.Location = new System.Drawing.Point(538, 188);
+			this.BCVRadio.Location = new System.Drawing.Point(491, 202);
 			this.BCVRadio.Name = "BCVRadio";
 			this.BCVRadio.Size = new System.Drawing.Size(104, 24);
 			this.BCVRadio.TabIndex = 22;
@@ -283,7 +285,7 @@ namespace ProyectoFinalALPProductos
 			// 
 			this.EURORadio.BackColor = System.Drawing.Color.Indigo;
 			this.EURORadio.ForeColor = System.Drawing.Color.White;
-			this.EURORadio.Location = new System.Drawing.Point(538, 218);
+			this.EURORadio.Location = new System.Drawing.Point(491, 232);
 			this.EURORadio.Name = "EURORadio";
 			this.EURORadio.Size = new System.Drawing.Size(104, 24);
 			this.EURORadio.TabIndex = 23;
@@ -295,7 +297,7 @@ namespace ProyectoFinalALPProductos
 			// 
 			this.PromRadio.BackColor = System.Drawing.Color.Indigo;
 			this.PromRadio.ForeColor = System.Drawing.Color.White;
-			this.PromRadio.Location = new System.Drawing.Point(538, 248);
+			this.PromRadio.Location = new System.Drawing.Point(491, 263);
 			this.PromRadio.Name = "PromRadio";
 			this.PromRadio.Size = new System.Drawing.Size(104, 24);
 			this.PromRadio.TabIndex = 24;
@@ -306,10 +308,11 @@ namespace ProyectoFinalALPProductos
 			// precioVentaInput
 			// 
 			this.precioVentaInput.Enabled = false;
-			this.precioVentaInput.Location = new System.Drawing.Point(12, 266);
+			this.precioVentaInput.Location = new System.Drawing.Point(12, 211);
 			this.precioVentaInput.Name = "precioVentaInput";
 			this.precioVentaInput.Size = new System.Drawing.Size(100, 20);
 			this.precioVentaInput.TabIndex = 25;
+			this.precioVentaInput.TextChanged += new System.EventHandler(this.PrecioVentaInputTextChanged);
 			// 
 			// gananciaComboBox
 			// 
@@ -332,7 +335,7 @@ namespace ProyectoFinalALPProductos
 			this.label7.ForeColor = System.Drawing.Color.White;
 			this.label7.Location = new System.Drawing.Point(244, 185);
 			this.label7.Name = "label7";
-			this.label7.Size = new System.Drawing.Size(173, 23);
+			this.label7.Size = new System.Drawing.Size(173, 25);
 			this.label7.TabIndex = 27;
 			this.label7.Text = "Tasa de ganancia";
 			// 
@@ -343,9 +346,9 @@ namespace ProyectoFinalALPProductos
 			this.label8.ForeColor = System.Drawing.Color.White;
 			this.label8.Location = new System.Drawing.Point(12, 126);
 			this.label8.Name = "label8";
-			this.label8.Size = new System.Drawing.Size(152, 23);
+			this.label8.Size = new System.Drawing.Size(202, 23);
 			this.label8.TabIndex = 28;
-			this.label8.Text = "Precio en divisa";
+			this.label8.Text = "Precio en divisa ($.)";
 			// 
 			// divisaText
 			// 
@@ -354,25 +357,36 @@ namespace ProyectoFinalALPProductos
 			this.divisaText.Name = "divisaText";
 			this.divisaText.Size = new System.Drawing.Size(100, 20);
 			this.divisaText.TabIndex = 29;
+			this.divisaText.TextChanged += new System.EventHandler(this.DivisaTextTextChanged);
 			// 
 			// label9
 			// 
 			this.label9.BackColor = System.Drawing.Color.Indigo;
 			this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 15F);
 			this.label9.ForeColor = System.Drawing.Color.White;
-			this.label9.Location = new System.Drawing.Point(419, 238);
+			this.label9.Location = new System.Drawing.Point(244, 238);
 			this.label9.Name = "label9";
-			this.label9.Size = new System.Drawing.Size(113, 23);
+			this.label9.Size = new System.Drawing.Size(240, 23);
 			this.label9.TabIndex = 30;
-			this.label9.Text = "Precio final";
+			this.label9.Text = "Venta a divisa convertible";
 			// 
 			// refDolarInput
 			// 
 			this.refDolarInput.Enabled = false;
-			this.refDolarInput.Location = new System.Drawing.Point(419, 266);
+			this.refDolarInput.Location = new System.Drawing.Point(244, 264);
 			this.refDolarInput.Name = "refDolarInput";
 			this.refDolarInput.Size = new System.Drawing.Size(100, 20);
 			this.refDolarInput.TabIndex = 31;
+			// 
+			// modificarProducto
+			// 
+			this.modificarProducto.Location = new System.Drawing.Point(341, 61);
+			this.modificarProducto.Name = "modificarProducto";
+			this.modificarProducto.Size = new System.Drawing.Size(91, 56);
+			this.modificarProducto.TabIndex = 32;
+			this.modificarProducto.Text = "Modificar Producto";
+			this.modificarProducto.UseVisualStyleBackColor = true;
+			this.modificarProducto.Click += new System.EventHandler(this.ModificarProductoClick);
 			// 
 			// MainForm
 			// 
@@ -380,7 +394,8 @@ namespace ProyectoFinalALPProductos
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
 			this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
-			this.ClientSize = new System.Drawing.Size(722, 458);
+			this.ClientSize = new System.Drawing.Size(722, 457);
+			this.Controls.Add(this.modificarProducto);
 			this.Controls.Add(this.refDolarInput);
 			this.Controls.Add(this.label9);
 			this.Controls.Add(this.divisaText);
@@ -411,6 +426,8 @@ namespace ProyectoFinalALPProductos
 			this.Controls.Add(this.nameProducto);
 			this.Controls.Add(this.pictureBox1);
 			this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.15F);
+			this.MaximumSize = new System.Drawing.Size(738, 496);
+			this.MinimumSize = new System.Drawing.Size(738, 496);
 			this.Name = "MainForm";
 			this.Text = "ProyectoFinalALPProductos";
 			this.Load += new System.EventHandler(this.MainFormLoad);
@@ -419,6 +436,7 @@ namespace ProyectoFinalALPProductos
 			this.ResumeLayout(false);
 			this.PerformLayout();
 		}
+		private System.Windows.Forms.Button modificarProducto;
 		private System.Windows.Forms.TextBox refDolarInput;
 		private System.Windows.Forms.Label label9;
 		private System.Windows.Forms.TextBox divisaText;

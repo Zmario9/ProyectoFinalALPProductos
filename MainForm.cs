@@ -46,21 +46,29 @@ namespace ProyectoFinalALPProductos
 			if(VerificacionDeDatos.VerificarNumero(BCVinput.Text) && VerificacionDeDatos.VerificarNumero(euroInput.Text)){
 				BCVtext = decimal.Parse(BCVinput.Text);
 				Eurotext = decimal.Parse(euroInput.Text);
-				promInput.Text = ((BCVtext + Eurotext) / 2).ToString("N2");
+				if(BCVtext > 0 && Eurotext > 0){
+					promInput.Text = ((BCVtext + Eurotext) / 2).ToString("N2");
+				}
+				activarODesactivarBtn(); // Intentará recalcular y validar todo
 				return;
 			}
-			
 			promInput.Text = "No estás ingresando números";
+			activarODesactivarBtn(); // Intentará recalcular y validar todo
 		}
 		
 		void resetTasaInputs(){
 			BCVinput.Text = "100";
 			euroInput.Text = "120";
+			promInput.Text = "";
 		}
 		
 		void AgregarProductosALaGrilla(){
 			dgvProductos.DataSource = null;
 			dgvProductos.DataSource = BDProductos.ObtenerProductosDeLaLista();
+			if (dgvProductos.Columns.Contains("CostoBase"))
+			{
+				dgvProductos.Columns["CostoBase"].Visible = false;
+			}
 		}
 		
 		void Label4Click(object sender, EventArgs e)
@@ -117,8 +125,8 @@ namespace ProyectoFinalALPProductos
 			}
 			decimal ganancia = (costo*decimal.Parse(gananciaComboBox.Text))/100;
 			decimal precioSubtotal = costo + ganancia;
-			precioVentaInput.Text = precioSubtotal.ToString();
-			divisaText.Text = (precioSubtotal/decimal.Parse(BCVinput.Text)).ToString();
+			precioVentaInput.Text = precioSubtotal.ToString() + "Bs.";
+			divisaText.Text = "$"+(precioSubtotal/decimal.Parse(BCVinput.Text)).ToString();
 		}
 		
 		//Eventos para cuando se escriba un input
@@ -127,6 +135,7 @@ namespace ProyectoFinalALPProductos
 		{
 			resetTasaInputs();
 			actualizarPromInput();
+			modificarProducto.Enabled = false;
 			if(!VerificacionDeDatos.CargarInventario(BDProductos)){
 				MessageBox.Show("No pudo cargar la base de datos");
 				return;
@@ -149,13 +158,9 @@ namespace ProyectoFinalALPProductos
 			
 			bool disponibilidad = disponibleCheck.Checked;
 			
-			if(!VerificacionDeDatos.VerificarCategoria(categoryCombBox.SelectedIndex)){
-				MessageBox.Show("No se pudo agregar el producto, escoge una categoria válida");
-				return;
-			}
 			categoryText = categoryCombBox.Text;
 			
-			if(!BDProductos.AgregarProductoALaLista(nombProd, precioSinTasa, categoryText, precioDolar, disponibilidad, decimal.Parse(BCVinput.Text))){
+			if(!BDProductos.AgregarProductoALaLista(nombProd, costoProd, precioSinTasa, categoryText, precioDolar, disponibilidad, decimal.Parse(BCVinput.Text))){
 				MessageBox.Show("Producto ya encontrado en la lista");
 				return;
 			}
@@ -197,11 +202,6 @@ namespace ProyectoFinalALPProductos
 			MessageBox.Show("Producto no encontrado");
 		}
 		
-		void DgvProductosCellContentClick(object sender, DataGridViewCellEventArgs e)
-		{
-			
-		}
-		
 		void GananciaComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			calcularPrecioSubtotal();
@@ -217,6 +217,55 @@ namespace ProyectoFinalALPProductos
 			}
 			calcularPrecioSubtotal();
 			aditionBtn.Enabled = true;
+		}
+		
+		void PrecioVentaInputTextChanged(object sender, EventArgs e)
+		{
+			
+		}
+		
+		void DgvProducts(object sender, DataGridViewCellEventArgs e)
+		{
+			
+		}
+		
+		void DgvProductosCellDoubleClick(object sender, DataGridViewCellEventArgs e)
+		{
+			if(e.ColumnIndex < 0){
+				return;
+			}
+			string nombreDelProducto = (dgvProductos.Rows[e.RowIndex].Cells["Nombre"].Value).ToString();
+			MessageBox.Show(nombreDelProducto.ToString());
+			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nombreDelProducto);
+			nameProducto.Text = productoAModificar.Nombre;
+			priceText.Text = productoAModificar.CostoBase.ToString();
+			categoryCombBox.Text = productoAModificar.SubClasificación;
+			disponibleCheck.Checked = (productoAModificar.Disponible == "Si") ? true : false;
+			modificarProducto.Enabled = true;
+		}
+		
+		void ModificarProductoClick(object sender, EventArgs e)
+		{
+			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nameProducto.Text);
+			if(productoAModificar == null){
+				MessageBox.Show("No se pudo hacer la modificación porque no se encontró el producto");
+				return;
+			}
+			productoAModificar.Nombre = nameProducto.Text;
+			productoAModificar.CostoBase = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
+			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
+			MessageBox.Show("Producto modificado correctamente");
+			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
+				MessageBox.Show("Los datos no pudieron guardarse en el txt");
+				return;
+			}
+			AgregarProductosALaGrilla();
+			limpiarFormulario();
+		}
+		
+		void DivisaTextTextChanged(object sender, EventArgs e)
+		{
+			
 		}
 	}
 }

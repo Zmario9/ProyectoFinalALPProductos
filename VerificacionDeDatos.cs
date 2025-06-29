@@ -61,6 +61,10 @@ namespace ProyectoFinalALPProductos
 			}
 		}
 		
+		public static string QuitarSigno(string precio){
+            return precio.Replace("$","").Trim();//cunado quita el signo del $ retorna el precio sin el signo
+        }
+		
 		public static bool CargarInventario(ListadoProductos baseDeDatos)
 		{
 			string rutaArchivo = "INVENTARIO.txt";
@@ -91,7 +95,7 @@ namespace ProyectoFinalALPProductos
 							// even if names are repeated, you might need a different Add method
 							// or modify AgregarProductoALaLista to always add if loading.
 							// The '0' for tasaBCV is a placeholder as FromString doesn't provide it.
-							baseDeDatos.AgregarProductoALaLista(productoCargado.Nombre, productoCargado.Costo, productoCargado.SubClasificación, productoCargado.PrecioCambio, productoCargado.Disponible == "Si", 0);
+							baseDeDatos.AgregarProductoALaLista(productoCargado.Nombre, productoCargado.CostoBase, productoCargado.Costo, productoCargado.SubClasificación, productoCargado.PrecioCambio, productoCargado.Disponible == "Si", 0);
 						}
 						catch (FormatException)
 						{
