@@ -1,3 +1,4 @@
 Harina|100|130|VIVERES|1,3|Si
 Chupeta|100|150|MEDICINAS|1,5|No disponible
 Arroz|150|195|VIVERES|1,95|No disponible
+Lunche|100|140|VEGETALES|1,4|Si

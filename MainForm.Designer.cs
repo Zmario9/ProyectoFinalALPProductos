@@ -156,6 +156,7 @@ namespace ProyectoFinalALPProductos
 			this.euroInput.Name = "euroInput";
 			this.euroInput.Size = new System.Drawing.Size(100, 20);
 			this.euroInput.TabIndex = 10;
+			this.euroInput.TextChanged += new System.EventHandler(this.EuroInputTextChanged);
 			// 
 			// promInput
 			// 
@@ -164,6 +165,7 @@ namespace ProyectoFinalALPProductos
 			this.promInput.Name = "promInput";
 			this.promInput.Size = new System.Drawing.Size(148, 20);
 			this.promInput.TabIndex = 11;
+			this.promInput.TextChanged += new System.EventHandler(this.PromInputTextChanged);
 			// 
 			// label3
 			// 
@@ -280,6 +282,7 @@ namespace ProyectoFinalALPProductos
 			this.BCVRadio.TabStop = true;
 			this.BCVRadio.Text = "Tasa BCV";
 			this.BCVRadio.UseVisualStyleBackColor = false;
+			this.BCVRadio.CheckedChanged += new System.EventHandler(this.BCVRadioCheckedChanged);
 			this.BCVRadio.Click += new System.EventHandler(this.BCVRadioClick);
 			// 
 			// EURORadio
@@ -306,6 +309,7 @@ namespace ProyectoFinalALPProductos
 			this.PromRadio.TabStop = true;
 			this.PromRadio.Text = "Tasa Promedio";
 			this.PromRadio.UseVisualStyleBackColor = false;
+			this.PromRadio.CheckedChanged += new System.EventHandler(this.PromRadioCheckedChanged);
 			// 
 			// precioVentaInput
 			// 

@@ -34,9 +34,19 @@ namespace ProyectoFinalALPProductos
 			BDProductos = new ListadoProductos();
 			categoryCombBox.SelectedIndex = 0;
 			gananciaComboBox.SelectedIndex = 0;
+			BCVRadio.Enabled = false;
+			EURORadio.Enabled = false;
+			PromRadio.Enabled = false;
 			//
 			// TODO: Add constructor code after the InitializeComponent() call.
 			//
+		}
+		
+		void ActivarODesactivarInputsRadio(bool activar){
+			BCVRadio.Enabled = activar ? true : false;
+			EURORadio.Enabled = activar ? true : false;
+			PromRadio.Enabled = activar ? true : false;
+			if (activar) BCVRadioClick(BCVRadio, EventArgs.Empty);
 		}
 		
 		//METODOS DEL FORMULARIO
@@ -63,12 +73,25 @@ namespace ProyectoFinalALPProductos
 			}
 		}
 		
+		void PromRadioCheckedChanged(object sender, EventArgs e)
+		{
+			if(!EstaModificando) {
+				refDolarInput.Text = "";
+				return;
+			}
+			if(ProductoDeReferencia != null){
+				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, PromRadio);
+			}
+		}
+		
 		
 		public void ObtenerPrecioEnBolivares(decimal bolivares, RadioButton selectedRadio){
 			if(VerificacionDeDatos.VerificarNumero(BCVinput.Text) && VerificacionDeDatos.VerificarNumero(euroInput.Text) && VerificacionDeDatos.VerificarNumero(promInput.Text)){
 				switch(selectedRadio.Text){
 						case "Tasa BCV": refDolarInput.Text = (decimal.Parse(BCVinput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
 						case "Tasa EURO": refDolarInput.Text = (decimal.Parse(euroInput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
+						case "Tasa Promedio": refDolarInput.Text = (decimal.Parse(promInput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
+						default: MessageBox.Show("Ninguno, error"); break;
 				}
 			}
 		}
@@ -182,6 +205,11 @@ namespace ProyectoFinalALPProductos
 		{
 			activarODesactivarBtn();
 			activarODesactivarModBtn();
+			actualizarPromInput();
+		}
+		void EuroInputTextChanged(object sender, EventArgs e)
+		{
+			actualizarPromInput();
 		}
 		// FIN TEXT CHANGE
 		
@@ -305,6 +333,7 @@ namespace ProyectoFinalALPProductos
 			ProductoDeReferencia = productoAModificar;
 			activarODesactivarBtn();
 			activarODesactivarModBtn();
+			ActivarODesactivarInputsRadio(true);
 		}
 		
 		void ModificarProductoClick(object sender, EventArgs e)
@@ -333,10 +362,21 @@ namespace ProyectoFinalALPProductos
 			EstaModificando = false;
 			modificarProducto.Enabled = false;
 			AgregarProductosALaGrilla();
+			ActivarODesactivarInputsRadio(false);
 			limpiarFormulario();
 		}
 		
 		void DivisaTextTextChanged(object sender, EventArgs e)
+		{
+			
+		}
+		
+		void PromInputTextChanged(object sender, EventArgs e)
+		{
+			
+		}
+		
+		void BCVRadioCheckedChanged(object sender, EventArgs e)
 		{
 			
 		}
