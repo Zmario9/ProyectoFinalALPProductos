@@ -335,14 +335,15 @@ namespace ProyectoFinalALPProductos
 				MessageBox.Show("Los datos no son validos, vuelvalo a intentar");
 				return;
 			}
+			string nombreRef = nameProducto.Text;
+			decimal costoRef = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
+			decimal costoBaseRef = decimal.Parse(precioVentaInput.Text.Replace("Bs.","").Trim());
+			decimal precioCambioRef = decimal.Parse(divisaText.Text.Replace("$","").Trim());
+			string disponibleRef = disponibleCheck.Checked ? "Si" : "No disponible";
+			string subclasificacionRef = categoryCombBox.Text;
+			int porcAplicadoRef= int.Parse(gananciaComboBox.Text);
 			
-			productoAModificar.Nombre = nameProducto.Text;
-			productoAModificar.Costo = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
-			productoAModificar.CostoBase =  decimal.Parse(precioVentaInput.Text.Replace("Bs.","").Trim());
-			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
-			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
-			productoAModificar.SubClasificación = categoryCombBox.Text;
-			productoAModificar.PorcentajeAplicado = int.Parse(gananciaComboBox.Text);
+			BDProductos.modificarProductoDeInventario(productoAModificar, nombreRef, costoRef, costoBaseRef, precioCambioRef, disponibleRef, subclasificacionRef, porcAplicadoRef);
 			
 			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
 				MessageBox.Show("Los datos no pudieron guardarse en la base de datos.");
@@ -353,6 +354,7 @@ namespace ProyectoFinalALPProductos
 			AgregarProductosALaGrilla();
 			ActivarODesactivarInputsRadio(false);
 			limpiarFormulario();
+			MessageBox.Show("Los datos han sido modificados correctamente.");
 		}
 	}
 }

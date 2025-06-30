@@ -46,5 +46,15 @@ namespace ProyectoFinalALPProductos
 			}
 			return null;
 		}
+		
+		public void modificarProductoDeInventario(Producto p, string nombre, decimal costo, decimal costobase, decimal preciocambio, string disponibilidad, string subclasificacion, int porcentajeaplicado){
+			p.Nombre = nombre;
+			p.Costo = costo;
+			p.CostoBase =  costobase;
+			p.PrecioCambio = preciocambio;
+			p.Disponible = disponibilidad;
+			p.SubClasificación = subclasificacion;
+			p.PorcentajeAplicado = porcentajeaplicado;
+		}
 	}
 }
