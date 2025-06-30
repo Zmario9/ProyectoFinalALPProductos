@@ -126,6 +126,15 @@ namespace ProyectoFinalALPProductos
 				dgvProductos.Columns["Costo"].Visible = false;
 				dgvProductos.Columns["PorcentajeAplicado"].Visible = false;
 			}
+			if (dgvProductos.Columns.Contains("PrecioCambio"))
+			{
+				dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "$#,##0.00"; // C2 for Currency with 2 decimal places
+				// If you specifically want "$", and not the system's currency symbol:
+				// dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "#,##0.00$"; // This might place $ at the end
+				// A more robust way for explicit '$' symbol at start, ignoring culture, if needed:
+				// dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "$#,##0.00";
+				// Or use an event handler for full control (more complex, but precise)
+			}
 		}
 		
 		void Label4Click(object sender, EventArgs e)
