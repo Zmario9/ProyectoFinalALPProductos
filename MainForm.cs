@@ -126,10 +126,11 @@ namespace ProyectoFinalALPProductos
 		void AgregarProductosALaGrilla(){
 			dgvProductos.DataSource = null;
 			dgvProductos.DataSource = BDProductos.ObtenerProductosDeLaLista();
-			if (dgvProductos.Columns.Contains("CostoBase"))
-			{
-				dgvProductos.Columns["CostoBase"].Visible = false;
-			}
+//			if (dgvProductos.Columns.Contains("Costo") && dgvProductos.Columns.Contains("PorcentajeAplicado"))
+//			{
+//				dgvProductos.Columns["Costo"].Visible = false;
+//				dgvProductos.Columns["PorcentajeAplicado"].Visible = false;
+//			}
 		}
 		
 		void Label4Click(object sender, EventArgs e)
@@ -173,7 +174,7 @@ namespace ProyectoFinalALPProductos
 		void limpiarFormulario(){
 			nameProducto.Text = "";
 			priceText.Text = "";
-			categoryCombBox.Text = "--- Opciones ---";
+			categoryCombBox.SelectedIndex = 0;
 			divisaText.Text = "";
 			refDolarInput.Text = "";
 		}
@@ -187,6 +188,7 @@ namespace ProyectoFinalALPProductos
 		
 		void PriceTextTextChanged(object sender, EventArgs e)
 		{
+			activarODesactivarBtn();
 			activarODesactivarModBtn();
 		}
 		
@@ -327,15 +329,15 @@ namespace ProyectoFinalALPProductos
 //			MessageBox.Show(nombreDelProducto.ToString());
 			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nombreDelProducto);
 			nameProducto.Text = productoAModificar.Nombre;
-			priceText.Text = productoAModificar.CostoBase.ToString();
+			priceText.Text = productoAModificar.Costo.ToString();
 			categoryCombBox.Text = productoAModificar.SubClasificación;
 			disponibleCheck.Checked = (productoAModificar.Disponible == "Si") ? true : false;
-			modificarProducto.Enabled = true;
-			ProductoDeReferencia = productoAModificar;
 			gananciaComboBox.Text = productoAModificar.PorcentajeAplicado.ToString();
+			ProductoDeReferencia = productoAModificar;
 			activarODesactivarBtn();
 			activarODesactivarModBtn();
 			ActivarODesactivarInputsRadio(true);
+			modificarProducto.Enabled = true;
 		}
 		
 		void ModificarProductoClick(object sender, EventArgs e)
@@ -352,7 +354,8 @@ namespace ProyectoFinalALPProductos
 			}
 			
 			productoAModificar.Nombre = nameProducto.Text;
-			productoAModificar.CostoBase = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
+			productoAModificar.Costo = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
+			productoAModificar.CostoBase =  decimal.Parse(precioVentaInput.Text.Replace("Bs.","").Trim()); 
 			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
 			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
 			productoAModificar.SubClasificación = categoryCombBox.Text;

@@ -54,18 +54,5 @@ namespace ProyectoFinalALPProductos
 			}
 			return null;
 		}
-		
-//		public bool productoExisteEnLaListA(string nombre){
-//			foreach(Producto p in BDProductos){
-//				if(nombre == p.Nombre) {
-//					return true;
-//				}
-//			}
-//			return false;
-//		}
-		
-//		public bool ModificarDatosDeProducto(Producto productoAModificar, string nombre, decimal costoBase, decimal precioCambio, bool disponible){
-//			
-//		}
 	}
 }

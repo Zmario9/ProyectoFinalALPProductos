@@ -18,9 +18,9 @@ namespace ProyectoFinalALPProductos
 	{
 		[DisplayName("Nombre del Producto")]
 		public string Nombre{get; set;}
-		public decimal CostoBase{get; set;}
-		[DisplayName("Precio de venta (Bs.)")]
 		public decimal Costo{get; set;}
+		[DisplayName("Precio de venta (Bs.)")]
+		public decimal CostoBase{get; set;}
 		[DisplayName("Categoría")]
 		public string SubClasificación{get; set;}
 		[DisplayName("Precio ($)")]
@@ -29,7 +29,7 @@ namespace ProyectoFinalALPProductos
 		public string Disponible{get; set;}
 		public int PorcentajeAplicado{get; set;}
 		
-		public Producto(string nombre, decimal costoBase, decimal costo, string subclasificacion, decimal precioCambio, bool disponible, int porcentajeAplicado)
+		public Producto(string nombre, decimal costo, decimal costoBase, string subclasificacion, decimal precioCambio, bool disponible, int porcentajeAplicado)
 		{
 			Nombre = nombre;
 			CostoBase = costoBase;
