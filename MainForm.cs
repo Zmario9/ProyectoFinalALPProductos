@@ -30,6 +30,7 @@ namespace ProyectoFinalALPProductos
 			InitializeComponent();
 			BCVRadio.Checked = true;
 			aditionBtn.Enabled = false;
+			deleteBtn.Enabled = false;
 			modificarProducto.Enabled = false;
 			BDProductos = new ListadoProductos();
 			categoryCombBox.SelectedIndex = 0;
@@ -103,7 +104,7 @@ namespace ProyectoFinalALPProductos
 				if(BCVtext > 0 && Eurotext > 0){
 					promInput.Text = ((BCVtext + Eurotext) / 2).ToString("N2");
 				}
-				activarODesactivarBtn(); 
+				activarODesactivarBtn();
 				activarODesactivarModBtn();
 				return;
 			}
@@ -151,12 +152,14 @@ namespace ProyectoFinalALPProductos
 			if(EstaModificando){
 				if(!verificarTodosLosInputs()){
 					modificarProducto.Enabled = false;
+					deleteBtn.Enabled = false;
 					divisaText.Text = "No se puede actualizar";
 					precioVentaInput.Text =  "Falta info";
 					return;
 				}
 				calcularPrecioSubtotal();
 				modificarProducto.Enabled = true;
+				deleteBtn.Enabled = true;
 			}
 		}
 		
@@ -280,17 +283,22 @@ namespace ProyectoFinalALPProductos
 		
 		void DeleteBtnClick(object sender, EventArgs e)
 		{
-			string texto = Interaction.InputBox("Ingrese el nombre del producto que desea eliminar");
-			if(!VerificacionDeDatos.VerificarEspaciosVaciosONoValidos(texto)){
-				MessageBox.Show("Debe escribir un nombre.");
+			Producto productoAEliminar = BDProductos.buscarProductoDeLaLista(ProductoDeReferencia.Nombre);
+			if(productoAEliminar == null){
+				MessageBox.Show("Producto no encontrado");
 				return;
 			}
-			if(BDProductos.EliminarProductoDeLaLista(texto)){
+			if(BDProductos.EliminarProductoDeLaLista(productoAEliminar.Nombre)){
 				MessageBox.Show("Producto eliminado exitosamente");
 				if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
 					MessageBox.Show("Los datos no pudieron guardarse en el txt");
 					return;
 				}
+				EstaModificando = false;
+				deleteBtn.Enabled = false;
+				modificarProducto.Enabled = false;
+				ActivarODesactivarInputsRadio(false);
+				limpiarFormulario();
 				AgregarProductosALaGrilla();
 				return;
 			}
@@ -318,7 +326,6 @@ namespace ProyectoFinalALPProductos
 			gananciaComboBox.Text = productoAModificar.PorcentajeAplicado.ToString();
 			ProductoDeReferencia = productoAModificar;
 			activarODesactivarBtn();
-			activarODesactivarModBtn();
 			ActivarODesactivarInputsRadio(true);
 			modificarProducto.Enabled = true;
 		}
@@ -349,8 +356,10 @@ namespace ProyectoFinalALPProductos
 				MessageBox.Show("Los datos no pudieron guardarse en la base de datos.");
 				return;
 			}
+			
 			EstaModificando = false;
 			modificarProducto.Enabled = false;
+			deleteBtn.Enabled = false;
 			AgregarProductosALaGrilla();
 			ActivarODesactivarInputsRadio(false);
 			limpiarFormulario();
