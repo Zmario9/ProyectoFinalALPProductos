@@ -46,7 +46,9 @@ namespace ProyectoFinalALPProductos
 			BCVRadio.Enabled = activar ? true : false;
 			EURORadio.Enabled = activar ? true : false;
 			PromRadio.Enabled = activar ? true : false;
-			if (activar) BCVRadioClick(BCVRadio, EventArgs.Empty);
+			if (activar){
+				BCVRadioClick(BCVRadio, EventArgs.Empty);
+			};
 		}
 		
 		//METODOS DEL FORMULARIO
@@ -57,10 +59,7 @@ namespace ProyectoFinalALPProductos
 				refDolarInput.Text = "";
 				return;
 			}
-			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
-				MessageBox.Show("Todo valido");
-				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), BCVRadio);
-			}
+			ObtenerPrecioEnBolivares(ProductoDeReferencia, BCVRadio);
 		}
 		
 		void EURORadioClick(object sender, EventArgs e)
@@ -69,26 +68,22 @@ namespace ProyectoFinalALPProductos
 				refDolarInput.Text = "";
 				return;
 			}
-			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
-				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), EURORadio);
-			}
+			ObtenerPrecioEnBolivares(ProductoDeReferencia, EURORadio);
 		}
 		
-		void PromRadioCheckedChanged(object sender, EventArgs e)
+		void PromRadioClick(object sender, EventArgs e)
 		{
 			if(!EstaModificando) {
 				refDolarInput.Text = "";
 				return;
 			}
-			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
-				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), PromRadio);
-			}
+			ObtenerPrecioEnBolivares(ProductoDeReferencia, PromRadio);
 		}
 		
 		
-		public void ObtenerPrecioEnBolivares(decimal bolivares, RadioButton selectedRadio){
+		public void ObtenerPrecioEnBolivares(Producto ProductoDeReferencia,RadioButton SelectedRadio){
 			if(VerificacionDeDatos.VerificarNumero(BCVinput.Text) && VerificacionDeDatos.VerificarNumero(euroInput.Text) && VerificacionDeDatos.VerificarNumero(promInput.Text)){
-				switch(selectedRadio.Text){
+				switch(SelectedRadio.Text){
 						case "Tasa BCV": refDolarInput.Text = (decimal.Parse(BCVinput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
 						case "Tasa EURO": refDolarInput.Text = (decimal.Parse(euroInput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
 						case "Tasa Promedio": refDolarInput.Text = (decimal.Parse(promInput.Text) * ProductoDeReferencia.PrecioCambio).ToString(); break;
@@ -126,11 +121,11 @@ namespace ProyectoFinalALPProductos
 		void AgregarProductosALaGrilla(){
 			dgvProductos.DataSource = null;
 			dgvProductos.DataSource = BDProductos.ObtenerProductosDeLaLista();
-//			if (dgvProductos.Columns.Contains("Costo") && dgvProductos.Columns.Contains("PorcentajeAplicado"))
-//			{
-//				dgvProductos.Columns["Costo"].Visible = false;
-//				dgvProductos.Columns["PorcentajeAplicado"].Visible = false;
-//			}
+			if (dgvProductos.Columns.Contains("Costo") && dgvProductos.Columns.Contains("PorcentajeAplicado"))
+			{
+				dgvProductos.Columns["Costo"].Visible = false;
+				dgvProductos.Columns["PorcentajeAplicado"].Visible = false;
+			}
 		}
 		
 		void Label4Click(object sender, EventArgs e)
@@ -355,7 +350,7 @@ namespace ProyectoFinalALPProductos
 			
 			productoAModificar.Nombre = nameProducto.Text;
 			productoAModificar.Costo = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
-			productoAModificar.CostoBase =  decimal.Parse(precioVentaInput.Text.Replace("Bs.","").Trim()); 
+			productoAModificar.CostoBase =  decimal.Parse(precioVentaInput.Text.Replace("Bs.","").Trim());
 			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
 			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
 			productoAModificar.SubClasificación = categoryCombBox.Text;
@@ -386,5 +381,6 @@ namespace ProyectoFinalALPProductos
 		{
 			
 		}
+		
 	}
 }

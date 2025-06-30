@@ -309,7 +309,7 @@ namespace ProyectoFinalALPProductos
 			this.PromRadio.TabStop = true;
 			this.PromRadio.Text = "Tasa Promedio";
 			this.PromRadio.UseVisualStyleBackColor = false;
-			this.PromRadio.CheckedChanged += new System.EventHandler(this.PromRadioCheckedChanged);
+			this.PromRadio.Click += new System.EventHandler(this.PromRadioClick);
 			// 
 			// precioVentaInput
 			// 
