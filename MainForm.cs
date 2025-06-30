@@ -57,8 +57,9 @@ namespace ProyectoFinalALPProductos
 				refDolarInput.Text = "";
 				return;
 			}
-			if(ProductoDeReferencia != null){
-				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, BCVRadio);
+			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
+				MessageBox.Show("Todo valido");
+				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), BCVRadio);
 			}
 		}
 		
@@ -68,8 +69,8 @@ namespace ProyectoFinalALPProductos
 				refDolarInput.Text = "";
 				return;
 			}
-			if(ProductoDeReferencia != null){
-				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, EURORadio);
+			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
+				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), EURORadio);
 			}
 		}
 		
@@ -79,8 +80,8 @@ namespace ProyectoFinalALPProductos
 				refDolarInput.Text = "";
 				return;
 			}
-			if(ProductoDeReferencia != null){
-				ObtenerPrecioEnBolivares(ProductoDeReferencia.PrecioCambio, PromRadio);
+			if(VerificacionDeDatos.VerificarNumero(divisaText.Text)){
+				ObtenerPrecioEnBolivares(decimal.Parse(divisaText.Text), PromRadio);
 			}
 		}
 		
@@ -267,7 +268,7 @@ namespace ProyectoFinalALPProductos
 			
 			categoryText = categoryCombBox.Text;
 			
-			if(!BDProductos.AgregarProductoALaLista(nombProd, costoProd, precioSinTasa, categoryText, precioDolar, disponibilidad, decimal.Parse(BCVinput.Text))){
+			if(!BDProductos.AgregarProductoALaLista(nombProd, costoProd, precioSinTasa, categoryText, precioDolar, disponibilidad, decimal.Parse(BCVinput.Text), int.Parse(gananciaComboBox.Text))){
 				MessageBox.Show("Producto ya encontrado en la lista");
 				return;
 			}
@@ -331,6 +332,7 @@ namespace ProyectoFinalALPProductos
 			disponibleCheck.Checked = (productoAModificar.Disponible == "Si") ? true : false;
 			modificarProducto.Enabled = true;
 			ProductoDeReferencia = productoAModificar;
+			gananciaComboBox.Text = productoAModificar.PorcentajeAplicado.ToString();
 			activarODesactivarBtn();
 			activarODesactivarModBtn();
 			ActivarODesactivarInputsRadio(true);
@@ -354,6 +356,7 @@ namespace ProyectoFinalALPProductos
 			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
 			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
 			productoAModificar.SubClasificación = categoryCombBox.Text;
+			productoAModificar.PorcentajeAplicado = int.Parse(gananciaComboBox.Text);
 			
 			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
 				MessageBox.Show("Los datos no pudieron guardarse en la base de datos.");

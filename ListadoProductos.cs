@@ -22,11 +22,11 @@ namespace ProyectoFinalALPProductos
 			BDProductos = new List<Producto>();
 		}
 		
-		public bool AgregarProductoALaLista(string nombre, decimal costobase, decimal precioSubTotal, string subclasificacion, decimal precioDolar, bool disponible, decimal tasaBCV){
+		public bool AgregarProductoALaLista(string nombre, decimal costobase, decimal precioSubTotal, string subclasificacion, decimal precioDolar, bool disponible, decimal tasaBCV, int porcentajeAplicado){
 			foreach(Producto p in BDProductos){
 				if(VerificacionDeDatos.VerificacionPorNombre(nombre, p)) return false;
 			}
-			Producto newProducto = new Producto(nombre, costobase, precioSubTotal, subclasificacion, precioDolar, disponible);
+			Producto newProducto = new Producto(nombre, costobase, precioSubTotal, subclasificacion, precioDolar, disponible, porcentajeAplicado);
 			
 			BDProductos.Add(newProducto);
 			return true;
