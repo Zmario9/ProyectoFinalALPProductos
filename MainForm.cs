@@ -118,6 +118,7 @@ namespace ProyectoFinalALPProductos
 				if(!verificarTodosLosInputs()){
 					aditionBtn.Enabled = false;
 					precioVentaInput.Text =  "Falta info";
+					divisaText.Text = "No se puede registrar";
 					return;
 				}
 				calcularPrecioSubtotal();
@@ -131,6 +132,7 @@ namespace ProyectoFinalALPProductos
 			if(EstaModificando){
 				if(!verificarTodosLosInputs()){
 					modificarProducto.Enabled = false;
+					divisaText.Text = "No se puede actualizar";
 					precioVentaInput.Text =  "Falta info";
 					return;
 				}
@@ -152,30 +154,36 @@ namespace ProyectoFinalALPProductos
 			refDolarInput.Text = "";
 		}
 		
-		
-		//EVENTOS DE FORMULARIO
-		
 		void PictureBox1Click(object sender, EventArgs e)
 		{
 			MessageBox.Show("Dong expanded");
 		}
 		
+		//EVENTOS DE FORMULARIO TEXT CHANGE
 		
 		void PriceTextTextChanged(object sender, EventArgs e)
 		{
-			if(!VerificacionDeDatos.VerificarNumero(priceText.Text)){
-				divisaText.Text = "No se pudo convertir";
-				precioVentaInput.Text = "Numero no valido";
-				return;
-			}
-			
-			if(!verificarTodosLosInputs()){
-				aditionBtn.Enabled = false;
-				return;
-			}
-			calcularPrecioSubtotal();
-			aditionBtn.Enabled = true;
+			activarODesactivarModBtn();
 		}
+		
+		void NameProductoTextChanged(object sender, EventArgs e)
+		{
+			activarODesactivarBtn();
+			activarODesactivarModBtn();
+		}
+		
+		void CategoryCombBoxSelectedIndexChanged(object sender, EventArgs e)
+		{
+			activarODesactivarBtn();
+			activarODesactivarModBtn();
+		}
+		
+		void BCVinputTextChanged(object sender, EventArgs e)
+		{
+			activarODesactivarBtn();
+			activarODesactivarModBtn();
+		}
+		// FIN TEXT CHANGE
 		
 		void calcularPrecioSubtotal(){
 			decimal costo;
@@ -244,17 +252,6 @@ namespace ProyectoFinalALPProductos
 			limpiarFormulario();
 		}
 		
-		void NameProductoTextChanged(object sender, EventArgs e)
-		{
-			activarODesactivarBtn();
-			activarODesactivarModBtn();
-		}
-		
-		void CategoryCombBoxSelectedIndexChanged(object sender, EventArgs e)
-		{
-			activarODesactivarBtn();
-			activarODesactivarModBtn();
-		}
 		
 		void DeleteBtnClick(object sender, EventArgs e)
 		{
@@ -278,13 +275,6 @@ namespace ProyectoFinalALPProductos
 		void GananciaComboBoxSelectedIndexChanged(object sender, EventArgs e)
 		{
 			calcularPrecioSubtotal();
-		}
-		
-		
-		void BCVinputTextChanged(object sender, EventArgs e)
-		{
-			activarODesactivarBtn();
-			activarODesactivarModBtn();
 		}
 		
 		void PrecioVentaInputTextChanged(object sender, EventArgs e)
@@ -334,6 +324,7 @@ namespace ProyectoFinalALPProductos
 			productoAModificar.CostoBase = decimal.Parse(priceText.Text.Replace("Bs.","").Trim());
 			productoAModificar.PrecioCambio = decimal.Parse(divisaText.Text.Replace("$","").Trim());
 			productoAModificar.Disponible = disponibleCheck.Checked ? "Si" : "No disponible";
+			productoAModificar.SubClasificación = categoryCombBox.Text;
 			
 			if(!VerificacionDeDatos.GuardarInventario(BDProductos)){
 				MessageBox.Show("Los datos no pudieron guardarse en la base de datos.");

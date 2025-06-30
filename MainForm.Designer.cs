@@ -137,6 +137,7 @@ namespace ProyectoFinalALPProductos
 			this.BCVinput.Name = "BCVinput";
 			this.BCVinput.Size = new System.Drawing.Size(100, 20);
 			this.BCVinput.TabIndex = 8;
+			this.BCVinput.TextChanged += new System.EventHandler(this.BCVinputTextChanged);
 			// 
 			// label2
 			// 
