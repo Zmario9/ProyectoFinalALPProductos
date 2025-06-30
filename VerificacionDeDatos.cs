@@ -62,7 +62,7 @@ namespace ProyectoFinalALPProductos
 		}
 		
 		public static string QuitarSigno(string precio){
-            return precio.Replace("$","").Trim();//cunado quita el signo del $ retorna el precio sin el signo
+            return precio.Replace("$","").Trim();//cuando quita el signo del $ retorna el precio sin el signo
         }
 		
 		public static bool CargarInventario(ListadoProductos baseDeDatos)
@@ -71,17 +71,12 @@ namespace ProyectoFinalALPProductos
 
 			if (!File.Exists(rutaArchivo))
 			{
-				// File doesn't exist, so nothing to load. Return false.
+				// retorna false si el archivo ni se consigue
 				return false;
 			}
 
 			try
 			{
-				// Clear the list to prevent duplicate entries if loaded multiple times.
-				// You'll need to add a public method in ListadoProductos like:
-				// public void ClearProducts() { BDProductos.Clear(); }
-				// baseDeDatos.ClearProducts(); // Uncomment if you add this method
-
 				using (StreamReader sr = new StreamReader(rutaArchivo))
 				{
 					string linea;
@@ -90,32 +85,25 @@ namespace ProyectoFinalALPProductos
 						try
 						{
 							Producto productoCargado = Producto.FromString(linea);
-							// Add the loaded product. Note: your ListadoProductos.AgregarProductoALaLista
-							// checks for duplicates by name. If you want to load all items from file
-							// even if names are repeated, you might need a different Add method
-							// or modify AgregarProductoALaLista to always add if loading.
-							// The '0' for tasaBCV is a placeholder as FromString doesn't provide it.
 							baseDeDatos.AgregarProductoALaLista(productoCargado.Nombre, productoCargado.CostoBase, productoCargado.Costo, productoCargado.SubClasificación, productoCargado.PrecioCambio, productoCargado.Disponible == "Si", 0, productoCargado.PorcentajeAplicado);
 						}
 						catch (FormatException)
 						{
-							// A line was malformed. You can log this silently if you don't want to show
-							// a message, but it means that line won't be loaded.
-							// For example, Console.WriteLine($"Error de formato en la línea: {linea}");
-							continue; // Skip this line and try the next one
+							//Si una linea se malforma, manejo eso aquí, pero no va en el proyecto asi que lo dejaré chill
+							continue; // Skipea y sigue con el siguiente
 						}
 						catch (Exception)
 						{
-							// Other unexpected parsing errors for a specific line.
-							continue; // Skip this line
+							// Si hubo otra excepción, es decir, otro tipo de error
+							continue; // Skippea la linea
 						}
 					}
 				}
-				return true; // Successfully loaded (even if some lines were skipped due to errors)
+				return true; // Returna true si todo fue bien, incluso si skipeo cosas
 			}
 			catch (Exception)
 			{
-				// General error during file reading (e.g., permissions).
+				// Si todo falla, pues retorno false
 				return false;
 			}
 		}

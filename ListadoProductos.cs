@@ -1,12 +1,4 @@
-﻿/*
- * Creado por SharpDevelop.
- * Usuario: Equipo
- * Fecha: 21/06/2025
- * Hora: 2:34 PM
- * 
- * Para cambiar esta plantilla use Herramientas | Opciones | Codificación | Editar Encabezados Estándar
- */
-using System;
+﻿using System;
 using System.Collections.Generic;
 
 namespace ProyectoFinalALPProductos

@@ -1,5 +1,5 @@
 ﻿/*
- * Creado por SharpDevelop.
+ * Creado por JJAGJ.
  * Usuario: Equipo
  * Fecha: 21/06/2025
  * Hora: 2:31 PM
@@ -103,7 +103,7 @@ namespace ProyectoFinalALPProductos
 				if(BCVtext > 0 && Eurotext > 0){
 					promInput.Text = ((BCVtext + Eurotext) / 2).ToString("N2");
 				}
-				activarODesactivarBtn(); // Intentará recalcular y validar todo
+				activarODesactivarBtn(); 
 				activarODesactivarModBtn();
 				return;
 			}
@@ -128,18 +128,8 @@ namespace ProyectoFinalALPProductos
 			}
 			if (dgvProductos.Columns.Contains("PrecioCambio"))
 			{
-				dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "$#,##0.00"; // C2 for Currency with 2 decimal places
-				// If you specifically want "$", and not the system's currency symbol:
-				// dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "#,##0.00$"; // This might place $ at the end
-				// A more robust way for explicit '$' symbol at start, ignoring culture, if needed:
-				// dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "$#,##0.00";
-				// Or use an event handler for full control (more complex, but precise)
+				dgvProductos.Columns["PrecioCambio"].DefaultCellStyle.Format = "$#,##0.00";
 			}
-		}
-		
-		void Label4Click(object sender, EventArgs e)
-		{
-			
 		}
 		
 		void activarODesactivarBtn(){
@@ -312,16 +302,6 @@ namespace ProyectoFinalALPProductos
 			calcularPrecioSubtotal();
 		}
 		
-		void PrecioVentaInputTextChanged(object sender, EventArgs e)
-		{
-			
-		}
-		
-		void DgvProducts(object sender, DataGridViewCellEventArgs e)
-		{
-			
-		}
-		
 		void DgvProductosCellDoubleClick(object sender, DataGridViewCellEventArgs e)
 		{
 			if(e.ColumnIndex < 0){
@@ -330,7 +310,6 @@ namespace ProyectoFinalALPProductos
 			EstaModificando = true;
 
 			string nombreDelProducto = (dgvProductos.Rows[e.RowIndex].Cells["Nombre"].Value).ToString();
-//			MessageBox.Show(nombreDelProducto.ToString());
 			Producto productoAModificar = BDProductos.buscarProductoDeLaLista(nombreDelProducto);
 			nameProducto.Text = productoAModificar.Nombre;
 			priceText.Text = productoAModificar.Costo.ToString();
@@ -375,21 +354,5 @@ namespace ProyectoFinalALPProductos
 			ActivarODesactivarInputsRadio(false);
 			limpiarFormulario();
 		}
-		
-		void DivisaTextTextChanged(object sender, EventArgs e)
-		{
-			
-		}
-		
-		void PromInputTextChanged(object sender, EventArgs e)
-		{
-			
-		}
-		
-		void BCVRadioCheckedChanged(object sender, EventArgs e)
-		{
-			
-		}
-		
 	}
 }
